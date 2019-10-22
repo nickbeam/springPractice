@@ -1,5 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<jsp:useBean id="MealsUtil" class="ru.javawebinar.topjava.util.MealsUtil" scope="page" />
 <html>
 <head>
     <title>Meals</title>
@@ -18,16 +18,13 @@
     </tr>
     </thead>
     <tbody>
-    <c:forEach items="${MealsUtil.meals}" var="meals">
+    <c:forEach items="${meals}" var="list">
         <tr>
-            <td>${meals.datetime}</td>
-            <td>${meals.description}</td>
-            <td>${meals.calories}</td>
+            <td><c:out value="${list.dateTime}" /></td>
+            <td><c:out value="${list.description}" /></td>
+            <td><c:out value="${list.calories}" /></td>
         </tr>
     </c:forEach>
-    <tr>
-        <td></td>
-    </tr>
     </tbody>
 </table>
 
