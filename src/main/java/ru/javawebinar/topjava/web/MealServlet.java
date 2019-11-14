@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import static org.slf4j.LoggerFactory.getLogger;
@@ -30,7 +31,7 @@ public class MealServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        System.out.println("0");
+        System.out.println("0");
 //        String desc = request.getParameter("description");
 //        String calories = request.getParameter("calories");
     }
@@ -40,11 +41,11 @@ public class MealServlet extends HttpServlet {
         log.debug("redirect to meals");
 
         String action = request.getParameter("action") == null ? "" : request.getParameter("action");
-        int id = request.getParameter("id") == null ? 0 : Integer.parseInt(request.getParameter("id"));
+        String id = request.getParameter("id") == null ? "" : request.getParameter("id");
 
         switch (action) {
             case "edit":
-                Meal meal = repository.get(id);
+                Meal meal = !id.isEmpty() ? repository.get(id) : new Meal(LocalDateTime.now(), "", 500);
                 request.setAttribute("meal", meal);
                 request.getRequestDispatcher("meal.jsp").forward(request, response);
                 break;

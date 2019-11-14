@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class MealRepositoryImpl implements MealRepository {
-    public Map<Integer, Meal> repository = new ConcurrentHashMap<>();
+    public Map<String, Meal> repository = new ConcurrentHashMap<>();
 
     @Override
     public void create(Meal meal) {
@@ -16,7 +16,7 @@ public class MealRepositoryImpl implements MealRepository {
     }
 
     @Override
-    public Meal get(int id) {
+    public Meal get(String id) {
         return repository.get(id);
     }
 
@@ -26,12 +26,12 @@ public class MealRepositoryImpl implements MealRepository {
     }
 
     @Override
-    public void update(Meal meal, int id) {
+    public void update(Meal meal, String id) {
         repository.put(id, meal);
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(String id) {
         repository.remove(id);
     }
 }

@@ -31,6 +31,7 @@
     </c:forEach>
     </tbody>
 </table>
-
+<br>
+<a href="meals?action=edit">Add new meal</a>
 </body>
 </html>

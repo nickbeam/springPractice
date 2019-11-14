@@ -7,11 +7,11 @@ import java.util.List;
 public interface MealRepository {
     void create(Meal meal);
 
-    Meal get(int id);
+    Meal get(String id);
 
     List<Meal> getAll();
 
-    void update(Meal meal, int id);
+    void update(Meal meal, String id);
 
-    void delete(int id);
+    void delete(String id);
 }
