@@ -31,15 +31,15 @@ public class MealServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         String id = request.getParameter("id") == null ? "" : request.getParameter("id");
         LocalDateTime dateTime = LocalDateTime.parse(request.getParameter("dateTime"));
         String description = request.getParameter("description");
         int calories = Integer.parseInt(request.getParameter("calories"));
-        Meal meal = repository.get(id);
-        if (meal == null) {
+        if (repository.get(id) == null) {
             repository.create(new Meal(dateTime, description, calories));
         } else {
-            repository.update(meal, id);
+            repository.update(new Meal(id, dateTime, description, calories), id);
         }
         request.setAttribute("meals", MealsUtil.getFiltered(repository.getAll(), LocalTime.MIN, LocalTime.MAX, 2000));
         request.getRequestDispatcher("mealList.jsp").forward(request, response);

@@ -15,15 +15,15 @@
         <table>
             <tr>
                 <td>Date&Time:</td>
-                <td><input type="datetime-local" name="dateTime" value="<c:out value="${meal.dateTime}"/>"></td>
+                <td><input type="datetime-local" name="dateTime" required value="<c:out value="${meal.dateTime}"/>"></td>
             </tr>
             <tr>
                 <td>Description:</td>
-                <td><input type="text" name="description" value="<c:out value="${meal.description}"/>" size="50"></td>
+                <td><input type="text" name="description" required value="<c:out value="${meal.description}"/>" size="50"></td>
             </tr>
             <tr>
                 <td>Calories:</td>
-                <td><input type="number" name="calories" value="<c:out value="${meal.calories}"/>" size="5"></td>
+                <td><input type="number" name="calories" required value="<c:out value="${meal.calories}"/>" size="5"></td>
             </tr>
         </table>
         <hr>
