@@ -6,17 +6,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class MealRepositoryImpl implements MealRepository {
-    public Map<String, Meal> repository = new ConcurrentHashMap<>();
+    public Map<Integer, Meal> repository = new ConcurrentHashMap<>();
+    private AtomicInteger counter = new AtomicInteger(0);
 
     @Override
-    public void create(Meal meal) {
-        repository.put(meal.getId(), meal);
+    public Meal save(Meal meal) {
+        if (meal.isNew()) {
+            meal.setId(counter.incrementAndGet());
+            repository.put(meal.getId(), meal);
+            return meal;
+        }
+        return repository.computeIfPresent(meal.getId(), (k ,v) -> meal);
     }
 
     @Override
-    public Meal get(String id) {
+    public Meal get(int id) {
         return repository.get(id);
     }
 
@@ -26,12 +33,7 @@ public class MealRepositoryImpl implements MealRepository {
     }
 
     @Override
-    public void update(Meal meal, String id) {
-        repository.put(id, meal);
-    }
-
-    @Override
-    public void delete(String id) {
-        repository.remove(id);
+    public boolean delete(int id) {
+        return repository.remove(id) != null;
     }
 }

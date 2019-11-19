@@ -3,13 +3,9 @@ package ru.javawebinar.topjava.model;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.UUID;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class MealTo {
-    //private static AtomicInteger nextId = new AtomicInteger();
-
-    private final String id;
+    private final Integer id;
 
     private final LocalDateTime dateTime;
 
@@ -17,24 +13,17 @@ public class MealTo {
 
     private final int calories;
 
-//    private final Supplier<Boolean> excess;
-//    private final AtomicBoolean excess;
     private final boolean excess;
 
-    public MealTo(String id, LocalDateTime dateTime, String description, int calories, boolean excess) {
-        this.id = id;//UUID.randomUUID().toString();//nextId.incrementAndGet();
+    public MealTo(Integer id, LocalDateTime dateTime, String description, int calories, boolean excess) {
+        this.id = id;
         this.dateTime = dateTime;
         this.description = description;
         this.calories = calories;
         this.excess = excess;
     }
 
-//    public Boolean getExcess() {
-//        return excess.get();
-//    }
-
-
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 

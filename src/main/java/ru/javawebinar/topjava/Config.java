@@ -28,7 +28,7 @@ public class Config {
                 new Meal(LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510)
         );
         for (Meal meal: meals) {
-            repository.create(meal);
+            repository.save(meal);
         }
     }
 

@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import ru.javawebinar.topjava.Config;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
-import ru.javawebinar.topjava.repository.MealRepositoryImpl;
 import ru.javawebinar.topjava.util.MealsUtil;
 
 import javax.servlet.ServletConfig;
@@ -15,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -32,40 +32,40 @@ public class MealServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        String id = request.getParameter("id") == null ? "" : request.getParameter("id");
-        LocalDateTime dateTime = LocalDateTime.parse(request.getParameter("dateTime"));
-        String description = request.getParameter("description");
-        int calories = Integer.parseInt(request.getParameter("calories"));
-        if (repository.get(id) == null) {
-            repository.create(new Meal(dateTime, description, calories));
-        } else {
-            repository.update(new Meal(id, dateTime, description, calories), id);
-        }
+        String id = request.getParameter("id");
+        Meal meal = repository.save(new Meal(id.isEmpty() ? null : Integer.parseInt(id), LocalDateTime.parse(request.getParameter("dateTime")),
+                request.getParameter("description"), Integer.parseInt(request.getParameter("calories"))));
+        log.debug(id.isEmpty() ? "Create {}" : "Update {}", meal);
         request.setAttribute("meals", MealsUtil.getFiltered(repository.getAll(), LocalTime.MIN, LocalTime.MAX, 2000));
         request.getRequestDispatcher("mealList.jsp").forward(request, response);
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        log.debug("redirect to meals");
+        String action = request.getParameter("action");
 
-        String action = request.getParameter("action") == null ? "" : request.getParameter("action");
-        String id = request.getParameter("id") == null ? "" : request.getParameter("id");
-
-        switch (action) {
-            case "edit":
-                Meal meal = !id.isEmpty() ? repository.get(id) : new Meal(LocalDateTime.now(), "", 500);
+        switch (action == null ? "all" : action) {
+            case "create":
+            case "update":
+                Meal meal = "create".equals(action) ? new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 500) : repository.get(getId(request));
+                log.debug(action.equals("create") ? "Create {}" : "Update {}", meal);
                 request.setAttribute("meal", meal);
                 request.getRequestDispatcher("meal.jsp").forward(request, response);
                 break;
             case "delete":
+                int id = getId(request);
+                log.debug("Delete {}", repository.get(id));
                 repository.delete(id);
                 break;
+            case "all":
             default:
 
         }
         request.setAttribute("meals", MealsUtil.getFiltered(repository.getAll(), LocalTime.MIN, LocalTime.MAX, 2000));
         request.getRequestDispatcher("mealList.jsp").forward(request, response);
-//        response.sendRedirect("mealList.jsp");
+    }
+
+    private int getId(HttpServletRequest request) {
+        return Integer.parseInt(request.getParameter("id"));
     }
 }
