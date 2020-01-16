@@ -24,13 +24,21 @@
     <form method="get" action="meals">
         <input type="hidden" name="action" value="filter">
         <label>Start date:</label>
-        <input type="date" name="startDate">
+        <label>
+            <input type="date" name="startDate">
+        </label>
         <label>End date:</label>
-        <input type="date" name="endDate">
+        <label>
+            <input type="date" name="endDate">
+        </label>
         <label>Start time:</label>
-        <input type="time" name="startTime">
+        <label>
+            <input type="time" name="startTime">
+        </label>
         <label>End time:</label>
-        <input type="time" name="endTime">
+        <label>
+            <input type="time" name="endTime">
+        </label>
         <br>
         <button type="submit">Filter</button>
         <button type="reset">Cancel</button>
