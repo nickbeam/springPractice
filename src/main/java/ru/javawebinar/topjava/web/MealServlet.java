@@ -70,6 +70,10 @@ public class MealServlet extends HttpServlet {
                 break;
             case "filter":
                 request.setAttribute("meals", controller.getFiltered(getStartDate(request), getEndDate(request), getStartTime(request), getEndTime(request)));
+                request.setAttribute("startDate", getStartDate(request));
+                request.setAttribute("endDate", getEndDate(request));
+                request.setAttribute("startTime", getStartTime(request));
+                request.setAttribute("endTime", getEndTime(request));
                 request.getRequestDispatcher("/meals.jsp").forward(request, response);
                 break;
             case "all":

@@ -25,23 +25,22 @@
         <input type="hidden" name="action" value="filter">
         <label>Start date:</label>
         <label>
-            <input type="date" name="startDate">
+            <input type="date" name="startDate" value="${param.startDate}">
         </label>
         <label>End date:</label>
         <label>
-            <input type="date" name="endDate">
+            <input type="date" name="endDate" value="${param.endDate}">
         </label>
         <label>Start time:</label>
         <label>
-            <input type="time" name="startTime">
+            <input type="time" name="startTime" value="${param.StartTime}">
         </label>
         <label>End time:</label>
         <label>
-            <input type="time" name="endTime">
+            <input type="time" name="endTime" value="${param.endTime}">
         </label>
         <br>
         <button type="submit">Filter</button>
-        <button type="reset">Cancel</button>
     </form>
     <br><br>
     <a href="meals?action=create">Add Meal</a>

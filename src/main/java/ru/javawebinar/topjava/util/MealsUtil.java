@@ -26,6 +26,11 @@ public class MealsUtil {
             new Meal(LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510)
     );
 
+    public static final List<Meal> MEALSADM = Arrays.asList(
+            new Meal(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "ЗавтракAdmin", 500),
+            new Meal(LocalDateTime.of(2015, Month.MAY, 31, 10, 0), "ЗавтракAdmin", 1000)
+    );
+
     public static List<MealTo> getTos(Collection<Meal> meals, int caloriesPerDay) {
         return getFiltered(meals, caloriesPerDay, meal -> true);
     }
