@@ -36,4 +36,5 @@ CREATE TABLE MEALS
     description         VARCHAR     NOT NULL,
     calories            INTEGER     NOT NULL
 );
-CREATE UNIQUE INDEX IF NOT EXISTS meals_id_uindex ON MEALS (ID);
+CREATE UNIQUE INDEX IF NOT EXISTS meals_unique_id_index ON meals (id);
+CREATE UNIQUE INDEX IF NOT EXISTS meals_date_time_index ON meals (date_time);
