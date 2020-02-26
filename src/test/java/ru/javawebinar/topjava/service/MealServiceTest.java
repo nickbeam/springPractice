@@ -32,49 +32,13 @@ import static ru.javawebinar.topjava.UserTestData.*;
 })
 @RunWith(SpringJUnit4ClassRunner.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
-public class MealServiceTest {
-    private double timeStart;
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss.SSS");
-    private static StringBuilder stringBuilder = new StringBuilder();
+public class MealServiceTest extends AbstractServiceTest{
 
     @Autowired
     private MealService service;
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
-
-    @Rule
-    public TestRule watcher = new TestWatcher() {
-        protected void starting(Description description) {
-            String leftAlignFormat = "| %-12s | %-42s |";
-            timeStart = System.currentTimeMillis();
-            Calendar cal = Calendar.getInstance();
-            stringBuilder.append(String.format(leftAlignFormat, dateFormat.format(cal.getTime()), description.getMethodName()));
-        }
-
-        protected void finished(Description description) {
-            String rightAlignFormat = " %-15s |%n";
-            double timeEnd = System.currentTimeMillis();
-            double seconds = (timeEnd - timeStart) / 1000.0;
-            stringBuilder.append(String.format(rightAlignFormat, new DecimalFormat("0.000").format(seconds)));
-            System.out.println("+--------------+--------------------------------------------+-----------------+");
-            System.out.println(stringBuilder.substring(stringBuilder.length() - 81, stringBuilder.length() - 1));
-            System.out.println("+--------------+--------------------------------------------+-----------------+");
-        }
-    };
-
-    @BeforeClass
-    public static void tableHead() {
-        stringBuilder.append("+--------------+--------------------------------------------+-----------------+\n");
-        stringBuilder.append("|  Start time  |                   Test name                |  Duration (sec) |\n");
-        stringBuilder.append("+--------------+--------------------------------------------+-----------------+\n");
-    }
-
-    @AfterClass
-    public static void printTiming() {
-        stringBuilder.append("+--------------+--------------------------------------------+-----------------+\n");
-        System.out.print(stringBuilder);
-    }
 
     @Test
     public void delete() throws Exception {
