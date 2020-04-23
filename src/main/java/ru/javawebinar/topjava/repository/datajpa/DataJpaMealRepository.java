@@ -4,8 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
+import ru.javawebinar.topjava.util.DateTimeUtil;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Repository
@@ -43,6 +46,6 @@ public class DataJpaMealRepository implements MealRepository {
 
     @Override
     public List<Meal> getBetweenInclusive(LocalDate startDate, LocalDate endDate, int userId) {
-        return crudRepository.getBetweenInclusive(startDate, endDate, userId);
+        return crudRepository.getBetweenInclusive(DateTimeUtil.getStartInclusive(startDate), DateTimeUtil.getEndExclusive(endDate), userId);
     }
 }
