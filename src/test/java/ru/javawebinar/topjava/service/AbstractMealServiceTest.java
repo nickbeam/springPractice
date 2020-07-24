@@ -1,14 +1,18 @@
 package ru.javawebinar.topjava.service;
 
+import org.junit.Assume;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.test.annotation.IfProfileValue;
+import org.springframework.test.context.event.annotation.BeforeTestClass;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import javax.validation.ConstraintViolationException;
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.Arrays;
 
 import static java.time.LocalDateTime.of;
 import static ru.javawebinar.topjava.MealTestData.*;
@@ -19,6 +23,9 @@ public abstract class AbstractMealServiceTest extends AbstractServiceTest {
 
     @Autowired
     protected MealService service;
+
+    @Autowired
+    private Environment environment;
 
     @Test
     public void delete() throws Exception {
@@ -99,11 +106,15 @@ public abstract class AbstractMealServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    @IfProfileValue(name = "spring.profiles.active", values = {"jpa", "datajpa"})
     public void createWithException() throws Exception {
+        Assume.assumeFalse(isJdbcProfile());
         validateRootCause(() -> service.create(new Meal(null, of(2015, Month.JUNE, 1, 18, 0), "  ", 300), USER_ID), ConstraintViolationException.class);
         validateRootCause(() -> service.create(new Meal(null, null, "Description", 300), USER_ID), ConstraintViolationException.class);
         validateRootCause(() -> service.create(new Meal(null, of(2015, Month.JUNE, 1, 18, 0), "Description", 9), USER_ID), ConstraintViolationException.class);
         validateRootCause(() -> service.create(new Meal(null, of(2015, Month.JUNE, 1, 18, 0), "Description", 5001), USER_ID), ConstraintViolationException.class);
+    }
+
+    private boolean isJdbcProfile() {
+        return Arrays.stream(environment.getActiveProfiles()).anyMatch(profile -> profile.contains("jdbc"));
     }
 }
