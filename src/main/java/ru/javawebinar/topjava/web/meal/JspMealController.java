@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.service.MealService;
 import ru.javawebinar.topjava.util.DateTimeUtil;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,11 +18,7 @@ import java.util.Objects;
 
 @Controller
 @RequestMapping("/meals")
-public class JspMealController extends MealRestController {
-
-    public JspMealController(MealService service) {
-        super(service);
-    }
+public class JspMealController extends AbstractMealController {
 
     @PostMapping("/save")
     public String save(HttpServletRequest request) {
