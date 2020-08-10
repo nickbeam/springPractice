@@ -18,6 +18,10 @@ public class MealsUtil {
     private MealsUtil() {
     }
 
+    public static List<Meal> toToMeal(List<MealTo> mealTos) {
+        return mealTos.stream().map(m -> new Meal(m.getId(), m.getDateTime(), m.getDescription(), m.getCalories())).collect(Collectors.toList());
+    }
+
     public static List<MealTo> getTos(Collection<Meal> meals, int caloriesPerDay) {
         return getFiltered(meals, caloriesPerDay, meal -> true);
     }
