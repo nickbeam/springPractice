@@ -60,10 +60,10 @@ public class MealTestData {
     }
 
     public static ResultMatcher contentJson(Meal... expected) {
-        return result -> assertMatch(readListFromJsonMvcResult(result, Meal.class), List.of(expected));
+        return result -> assertMatch(readListFromJsonMvcResult(result, MealTo.class), MealsUtil.getTos(List.of(expected), MealsUtil.DEFAULT_CALORIES_PER_DAY));
     }
 
     public static ResultMatcher contentJson(Meal expected) {
-        return result -> assertMatch(readFromJsonMvcResult(result, Meal.class), expected);
+        return result -> assertMatch(readListFromJsonMvcResult(result, MealTo.class), MealsUtil.getTos(List.of(expected), MealsUtil.DEFAULT_CALORIES_PER_DAY));
     }
 }
