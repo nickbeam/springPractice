@@ -89,4 +89,13 @@ class MealRestControllerTest extends AbstractControllerTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(contentJson(MEAL2,MEAL1));
     }
+
+    @Test
+    void getBetweenEmpty() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL + "/filter?startDate=&startTime=&endDate=&endTime="))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(contentJson(MEALS));
+    }
 }

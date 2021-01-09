@@ -54,13 +54,23 @@ public class MealRestController extends AbstractMealController {
         super.update(meal, id);
     }
 
+//    @Override
+//    @GetMapping(value = "/filter")
+//    public List<MealTo> getBetween(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+//                                   @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime startTime,
+//                                   @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+//                                   @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime endTime) {
+//        return super.getBetween(startDate, startTime, endDate, endTime);
+//    }
+
     @Override
     @GetMapping(value = "/filter")
-    public List<MealTo> getBetween(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-                                   @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime startTime,
-                                   @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
-                                   @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime endTime) {
-        return super.getBetween(startDate, startTime, endDate, endTime);
+    public List<MealTo> getBetween(@RequestParam(value = "startDate", required = false) LocalDate startDate,
+                                   @RequestParam(value = "startTime", required = false) LocalTime startTime,
+                                   @RequestParam(value = "endDate", required = false) LocalDate endDate,
+                                   @RequestParam(value = "endTime", required = false) LocalTime endTime) {
+        return super.getBetween(startDate == null ? LocalDate.of(1,1,1) : startDate, startTime == null ? LocalTime.MIN : startTime,
+                endDate == null ? LocalDate.of(3000, 1, 1) : endDate, endTime == null ? LocalTime.MAX : endTime);
     }
 
 }
